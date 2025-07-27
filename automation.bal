@@ -7,11 +7,12 @@ public function main() returns error? {
         foreach CustomersItem customer in customers {
             if customer.loyalty.points >= 5000 {
                 log:printInfo(customer.email);
-                gmail:Message gmailMessage = check gmailClient->/users/[customer.email]/messages/send.post({
-                    subject: "O2 Mart - Loyalty promotions",
-                    bodyInText: "Hello" + customer.name +
+            gmail:Message gmailMessage = check gmailClient->/users/["o2mart.info@gmail.com"]/messages/send.post({
+                to: [customer.email],
+                subject: "O2 Mart - Loyalty promotions",
+                bodyInText: "Hello" + customer.name +
 "you have won special promotional rewards for your " + customer.loyalty.points.toString() + " points"
-                });
+            });
             }
         }
     } on fail error e {
